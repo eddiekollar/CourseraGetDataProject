@@ -19,6 +19,8 @@ featureNames = unlist(lapply(read.table("data/features.txt", stringsAsFactors = 
 ## Read activity_labels.txt
 activityLabels = read.table("data/activity_labels.txt", stringsAsFactors = FALSE)[,2]
 
+## Step 3
+
 ## Read subject ids for train and test data sets
 subjectIdsTrain = read.table("data/subject_train.txt", col.names = ("subjectId"))
 subjectIdsTest = read.table("data/subject_test.txt", col.names = ("subjectId"))
@@ -45,7 +47,7 @@ allData = data.frame(cbind(subjectIds, activityData, activityIds))
 ## Cleanup temporary data frames
 rm(activityIdsTrain, activityIdsTest, subjectIds, activityData, activityIds)
 
-## Step 3
+## Step 4
 
 ## Find all features that are the mean or standard deviation
 ## Returns a logical vector indicating if the column name includes strings "mean" or "std"
@@ -59,7 +61,7 @@ rm(allData)
 ## Adds activty column to match activity
 dataSubset$activity = activityLabels[dataSubset$activity]
 
-## Step 4
+## Step 5
 
 ## Generate tidy data set
 library(reshape2)
@@ -72,6 +74,5 @@ tidyData = dcast(dataMelt, subjectId + activity ~ variable, mean)
 rm(dataMelt)
 
 ## Step 5
-
 ## Write the tidy data into tidyData.txt excluding row names
 write.table(tidyData, file = "tidyData.txt", row.names = FALSE)
